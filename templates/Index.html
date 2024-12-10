@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR Code Scanner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>QR Code Scanner</h1>
+        
+        <div class="button-container">
+            <button onclick="startScan()">Start Scanning</button>
+            <button onclick="stopScan()">Stop Scanning</button>
+        </div>
+
+        <div id="video-container">
+            <img id="video-feed" src="{{ url_for('video_feed') }}" alt="Camera Feed">
+        </div>
+
+        <div id="result"></div>
+
+        <h2>Or Upload an Image</h2>
+        <input type="file" id="file-upload" accept="image/*" capture="environment">
+        <button onclick="uploadImage()">Upload QR Code</button>
+    </div>
+
+    <script>
+        // Previous JavaScript remains the same
+        function startScan() {
+            fetch('/start_scan', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+                checkScanResult();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('result').innerText = 'Scanning start failed';
+            });
+        }
+
+        // Rest of the previous JavaScript code remains the same
+    </script>
+</body>
+</html>
